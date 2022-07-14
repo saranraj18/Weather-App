@@ -32,22 +32,18 @@ class WeatherController {
     }
   }
 
-  static Future<bool> fetchCityWeather() async {
+  static Future fetchCityWeather() async {
     try {
-      int count = CITY_LIST.length;
-
-      for (int i = 0; i < count; i++) {
-        final data = await fetchWeather(CITY_LIST[i].cityName ?? "");
-        CITY_LIST[i].temperature = _convertKtoC(data['main']['temp']);
-        CITY_LIST[i].weather = data['weather'][0]['main'];
-        CITY_LIST[i].humidity = data['main']['humidity'];
-        CITY_LIST[i].pressure = data['main']['pressure'];
-        CITY_LIST[i].wind = data['wind']['speed'];
+      for (var city in CITY_LIST) {
+        final data = await fetchWeather(city.cityName ?? "");
+        city.temperature = _convertKtoC((data['main']['temp']).toDouble());
+        city.weather = (data['weather'][0]['main']).toString();
+        city.humidity = (data['main']['humidity']).toInt();
+        city.pressure = (data['main']['pressure']).toInt();
+        city.wind = (data['wind']['speed']).toDouble();
       }
-
-      return true;
     } catch (e) {
-      return false;
+      print(e.toString());
     }
   }
 
@@ -86,11 +82,11 @@ class WeatherController {
 
       final data = await fetchWeather(value[0].administrativeArea ?? "");
 
-      CURRENT_LOC.temperature = _convertKtoC(data['main']['temp']);
-      CURRENT_LOC.weather = data['weather'][0]['main'];
-      CURRENT_LOC.humidity = data['main']['humidity'];
-      CURRENT_LOC.pressure = data['main']['pressure'];
-      CURRENT_LOC.wind = data['wind']['speed'];
+      CURRENT_LOC.temperature = _convertKtoC((data['main']['temp']).toDouble());
+      CURRENT_LOC.weather = (data['weather'][0]['main']).toString();
+      CURRENT_LOC.humidity = (data['main']['humidity']).toInt();
+      CURRENT_LOC.pressure = (data['main']['pressure']).toInt();
+      CURRENT_LOC.wind = (data['wind']['speed']).toDouble();
     });
   }
 
@@ -105,6 +101,9 @@ class WeatherController {
         image = "rain.png";
         break;
       case "Drizzle":
+        image = "rain.png";
+        break;
+      case "Mist":
         image = "rain.png";
         break;
       case "Clear":

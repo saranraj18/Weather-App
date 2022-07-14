@@ -107,21 +107,13 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
-  Future fetchCitiesWeather() async {
-    await WeatherController.fetchCityWeather();
-  }
-
-  Future fetchLocationWeather() async {
-    await WeatherController.fetchLocation();
-  }
-
   void setup() async {
-    await fetchLocationWeather().then((_) async {
+    await WeatherController.fetchLocation().then((_) async {
       setState(() {});
-      await fetchCitiesWeather().then((_) {
-        setState(() {});
+
+      await WeatherController.fetchCityWeather().then((_) {
         Future.delayed(
-          const Duration(seconds: 3),
+          const Duration(seconds: 1),
           (() => Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
@@ -159,11 +151,11 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(left: width * 0.35),
+            padding: EdgeInsets.only(left: width * 0.32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: height * 0.03),
+                SizedBox(height: height * 0.027),
                 Row(
                   children: [
                     Text(
@@ -174,7 +166,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         fontSize: 80,
                       ),
                     ),
-                    SizedBox(width: width * 0.005),
+                    SizedBox(width: width * 0.003),
                     Padding(
                       padding: const EdgeInsets.only(top: 43),
                       child: Text(
